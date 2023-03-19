@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" (click)="homepage()"><img style="width: 60px;height: 55px;margin-left: 40px;cursor: pointer;" src="../../../assets/logo.png"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" style="justify-content: end;margin-right: 5%;">
+        <div style="margin-left: auto;margin-right: auto;position: relative;">
+            <div class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search for Products" aria-label="Search" style="width: 500px; border: solid 2px #0d6c31;" [(ngModel)]="searchTerm" (keyup)="search($event)">
+            </div>
+            <img style="width: 20px;position: absolute;top: 10px;right: 10px;" src="../../../assets/search.png">
+        </div>
+        <div style="display: flex;">
+            <div class="rightSide" (click)="onClickRoute()">
+                <img style="width: 32px;" src="../../../assets/cart.png">
+                <ng-container *ngIf="cartListLength()">
+                    <div style="font-size: 10px;" class="badge bg-danger">{{cartListLength()}}</div>
+                </ng-container>
+            </div>
+            <div class="rightSide" (click)="onClickWishlistRoute()">
+                <img style="width: 32px;" src="../../../assets/wish-list.png">
+                <ng-container *ngIf="wishListLength()">
+                    <div style="font-size: 10px;" class="badge bg-danger">{{wishListLength()}}</div>
+                </ng-container>
+            </div>
+            <div class="rightSide" (click)="onClickAdminRoute()">
+                <img style="width: 32px;" src="../../../assets/software-engineer.png">
+            </div>
+        </div>
+    </div>
+</nav>

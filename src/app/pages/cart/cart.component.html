@@ -1,0 +1,162 @@
+<app-header></app-header>
+<ng-container *ngIf="products.length !=0">
+    <div class="container">
+        <div class=" cartContainer containerFix">
+            <div class="col-12-12" style="display:flex; flex-flow: row;">
+                <div style="flex-grow: 1;overflow: visible;">
+                    <ng-container *ngIf="products.length != 0">
+                        <ng-container *ngFor="let item of products; let i = index">
+                            <div style="box-shadow: rgb(0 0 0 / 20%) 0px 1px 2px 0px;flex-flow: column;">
+                                <div class="col-12" style="display: block;">
+                                    <div style="border-top: 1px solid #f0f0f0!important;">
+                                        <div class="containerPadd" style="display: flex;">
+                                            <a>
+                                                <span>
+                                                    <div
+                                                        style="height: 112px; width: 112px;position: relative;margin: 0 auto;">
+                                                        <ng-container *ngIf="item?.attachments?.filePath !== undefined && item?.attachments?.filePath !== null">
+                                                            <img style="position: absolute;bottom: 0;left: 0;right: 0;top: 0;margin: auto;opacity: 1;max-width: 100%;max-height: 100%;"
+                                                                alt="" src="{{webUrl}}{{item?.attachments?.filePath}}">
+                                                        </ng-container>
+                                                        <ng-container *ngIf="item?.attachments?.filePath == undefined || item?.attachments?.filePath == null">
+                                                            <img style="position: absolute;bottom: 0;left: 0;right: 0;top: 0;margin: auto;opacity: 1;max-width: 100%;max-height: 100%;"
+                                                                alt="" src="../../../assets/logo-white.png">
+                                                        </ng-container>
+                                                    </div>
+                                                </span>
+                                            </a>
+                                            <div class="detail" *ngIf="item.title !== null && item.title !== undefined">
+                                                <div class="_2-uG6-"><a class="_2Kn22P gBNbID">{{item.title}}</a></div>
+                                                <div class="_3ZS8sw clamp">{{item.description}}</div>
+                                                <div class="_2-ut7f _1WpvJ7">{{item.price | currency:"INR":"symbol"}}</div>
+                                            </div>
+                                            <div class="detail" *ngIf="item.title == null || item.title == undefined">
+                                                <div class="_2-uG6-"><a class="_2Kn22P gBNbID">No Details</a></div>
+                                                <div class="_3ZS8sw clamp">{{item.description}}</div>
+                                                <div class="_2-ut7f _1WpvJ7">{{item.price | currency:"INR":"symbol"}}</div>
+                                            </div>
+                                            <div class="_2zbf83">
+                                                <ul class="_31bLAK"></ul>
+                                            </div>
+                                        </div>
+                                        <div class="nZz3kj" style="padding: 24px;;display: flex;background: #fff;">
+                                            <div style="display: inline-block;clear: both;">
+                                                <div class="_3dY_ZR" style="display: flex;">
+                                                    <button class="_23FHuj" [disabled]="item.quantity == 1" (click)="minusQuant(item)"> – </button>
+                                                    <div class="_26HdzL"><input type="text" class="_253qQJ" [value]="item.quantity"></div>
+                                                    <button class="_23FHuj" [disabled]="item.quantity == 5" (click)="plusQuant(item)"> + </button>
+                                                </div>
+                                            </div>
+                                            <div class="_10vWcL td-FUv WDiNrH" style="display: flex;padding-left: 24px;">
+                                                <div class="_3dsJAO" (click)="onWhislist(item)">Save for later</div>
+                                                <div class="_3dsJAO" (click)="removeItem(item,'products')">Remove</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <div class="col-12 newClass" style="display: block;">
+                            <div class="eBV0fb" >
+                                <button class="_2KpZ6l _2ObVJD _3AWRsL">
+                                    <span>Place Order </span>
+                                </button>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <!-- <ng-container *ngIf="wishList.length != 0">
+                        <div style="box-shadow: rgb(0 0 0 / 20%) 0px 1px 2px 0px;flex-flow: column; background-color: #fff;margin-top: 20px;">
+                            <div class="col-12" style="display: block;">
+                                <div style="border-top: 1px solid #f0f0f0!important;">
+                                    <div class="_3dsJAO" style="padding: 24px;">WhishList</div>
+                                </div>
+                            </div>
+                        </div>
+                        <ng-container *ngFor="let item of wishList; let i = index">
+                            <div style="box-shadow: rgb(0 0 0 / 20%) 0px 1px 2px 0px;flex-flow: column;">
+                                <div class="col-12" style="display: block;">
+                                    <div style="border-top: 1px solid #f0f0f0!important;">
+                                        <div class="containerPadd" style="display: flex;">
+                                            <a><span>
+                                                    <div
+                                                        style="height: 112px; width: 112px;position: relative;margin: 0 auto;">
+                                                        <img style="position: absolute;bottom: 0;left: 0;right: 0;top: 0;margin: auto;opacity: 1;max-width: 100%;max-height: 100%;"
+                                                            alt="" src="{{webUrl}}{{item?.attachments?.filePath}}">
+                                                    </div>
+                                                </span></a>
+                                            <div class="detail">
+                                                <div class="_2-uG6-"><a class="_2Kn22P gBNbID">{{item.title}}</a></div>
+                                                <div class="_3ZS8sw clamp">{{item.description}}</div>
+                                                <div class="_2-ut7f _1WpvJ7">{{item.price | currency:"INR":"symbol"}}</div>
+                                            </div>
+                                            <div class="_2zbf83">
+                                                <ul class="_31bLAK"></ul>
+                                            </div>
+                                        </div>
+                                        <div class="nZz3kj" style="padding: 24px;;display: flex;background: #fff;">
+                                            <div style="display: inline-block;clear: both;">
+                                                <div class="_3dY_ZR" style="display: flex;">
+                                                </div>
+                                            </div>
+                                            <div class="_10vWcL td-FUv WDiNrH" style="display: flex;padding-left: 24px;">
+                                                <div class="_3dsJAO" (click)="moveToCart(item)"> MOVE TO CART</div>
+                                                <div class="_3dsJAO" (click)="removeItem(item,'wishList')">Remove</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container> -->
+                </div>
+                <div class="_1YokD2 _78xt5Y col-4" style="padding: 0px 0px 0px 16px;position: inherit;">
+                    <div class="_1AtVbE col-12">
+                        <div class="dimARw">
+                            <div class="_35mLK5">
+                                <span class="_3aPjap">Price details</span>
+                                <div class="_I_XQO">
+                                    <div class="_1MaUCb">
+                                        <div class="_2SabxT">
+                                            <ng-container *ngIf="lengthOfCartList()== 1">
+                                                <div class="nxl3SA">Price (1 item)</div>
+                                            </ng-container>
+                                            <ng-container *ngIf="lengthOfCartList()>1">
+                                                <div class="nxl3SA">Price ({{lengthOfCartList()}} items)</div>
+                                            </ng-container>
+                                        </div>
+                                        <div><span class="_1YQFQF">{{grandTotal | currency:"INR":"symbol"}}</span></div>
+                                    </div>
+                                    <div class="_3LxTgx">
+                                        <div class="Ob17DV">
+                                            <div class="_24KATy">
+                                                <div class="_2npqm0">Total Amount</div>
+                                            </div>
+                                            <div class="_1dqRvU">
+                                                <div class="Ob17DV _3X7Jj1">
+                                                    <span>{{grandTotal | currency:"INR":"symbol"}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+<ng-container *ngIf="products.length ==0">
+    <div class="container">
+        <div class="card" style="position: relative;">
+            <h5 class="card-title">My Cart</h5>
+            <div class="center">
+                <img style="height: 100%;" src="../../../assets/shopping.png">
+                <h4>Your cart is empty!</h4>
+                <h6>Add item to it now</h6>
+                <button routerLink="/homepage" class="btn btn-primary" style="background-color:#096a2e;border: #096a2e;">Shop Now</button>
+            </div>
+        </div>
+    </div>
+</ng-container>

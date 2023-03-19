@@ -1,0 +1,183 @@
+<app-admin-header></app-admin-header>
+<div class="container-fluid pt-0" style="padding: 60px;">
+    <div class="card mt-4 shadow p-3 m-3 bg-white" style="border: 0px;border-radius: 15px;">
+        <div class="card-header"
+            style="border: 0px;display: flex;align-items: center;   font-weight: 500;background-color: #ffff;border-radius: 15px;">
+            All Types
+            <!-- <div style="margin-left: auto;">
+                <button class="btn btn-primary" (click)="onShowModal()">
+                    Add
+                </button>
+            </div> -->
+        </div>
+    </div>
+    <div class="accordion" id="accordionParent" style="margin: 1rem;padding: 0px 20px 0px 20px;">
+        <ng-container *ngFor="let type of typesList;let i=index">
+            <div class="accordion-item mb-4 border-0">
+                <h2 class="accordion-header" [id]="'heading'+i" (click)="getChild(type)">
+                    <button class="accordion-button collapsed" type="button" aria-expanded="false" data-bs-toggle="collapse"
+                        [attr.data-bs-target]="'#collapse'+i" [attr.aria-controls]="'collapse'+i"
+                        style="color: #252525;background-color: #096a2e;">
+                        <div class="itemPlacement">
+                            <span class="item1">Display Value: {{type.displayValue}}</span>
+                            <span class="item2">Display Name: {{type.displayName}}</span>
+                        </div>
+                    </button>
+                </h2>
+                <div [id]="'collapse'+i" [class]="i == 0?'accordion-collapse collapse':'accordion-collapse collapse'"
+                    [attr.aria-labelledby]="'heading'+i" data-bs-parent="#accordionParent"
+                    style="background-color: #f1f3f6;">
+                    <div class="accordion-body" style="background-color: #f1f3f6;">
+                        <div class="row">
+                            <button class="btn btn-primary" style="width: 125px;position: relative;left: 86%;background-color: #f3bd7c; border: #f3bd7c;"
+                                (click)="onShowChildModal(type)">
+                                Add Category
+                            </button>
+                        </div>
+                        <div class="accordion" [id]="'accordionChild'+i" style="margin: 1rem;">
+                            <ng-container *ngIf="childList.length === 0">
+                                No Category
+                            </ng-container>
+                            <ng-container *ngFor="let child of childList;let j=index">
+                                <div class="accordion-item mb-4 border-0">
+                                    <h2 class="accordion-header" [id]="'headingChild'+j" (click)="getGrandChild(child)">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            [attr.data-bs-target]="'#collapseChild'+j"
+                                            [attr.aria-controls]="'collapseChild'+j" style="background-color: antiquewhite;color: black;">
+                                            <div class="itemPlacement">
+                                                <span class="item12">Display Value: {{child?.displayValue}}</span>
+                                                <span class="item23">Display Name: {{child?.displayName}}</span>
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div [id]="'collapseChild'+j"
+                                        class="accordion-collapse collapse"
+                                        [attr.aria-labelledby]="'headingChild'+j" [attr.data-bs-parent]="'#accordionChild'+i"
+                                        style="background-color: #f1f3f6;">
+                                        <div class="accordion-body" style="background-color: #f1f3f6;">
+                                            <div class="row">
+                                            </div>
+                                            <ng-container *ngIf="grandChildList.length === 0">
+                                                <div class="row">
+                                                    <span style="position: relative;margin-left: auto;margin-right: auto;width: 240px;">No SubCategory</span>
+                                                </div>
+                                            </ng-container>
+                                            <ng-container *ngFor="let grandChild of grandChildList;let k=index">
+                                                <div class="card mt-4">
+                                                    <div class="card-header border-0" style="padding: 16px;display: flex;">
+                                                        <div class="itemPlacement">
+                                                            <span class="item1">Display Value: {{grandChild?.displayValue}}</span>
+                                                            <span class="item2">Display Name: {{grandChild?.displayName}}</span>
+                                                        </div>
+                                                        <img style="width: 20px;position: relative;" src="../../../../assets/edit.png" (click)="onShowEditModal(grandChild)">
+                                                        <img style="width: 20px;position: absolute;right: 45px;cursor: pointer;" src="../../../../assets/delete.png" (click)="deleteLov(child)">
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>
+
+<div id="genericAddChildForm" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="card">
+                <div class="card-header border-0" style="padding: 1.5rem;">
+                    <div class="modal-title">Add Category</div>
+                    <button type="button" class="close" data-dismiss="modal" (click)="onHideChildModal()"
+                        aria-label="Close"
+                        style="border: 0px;position: absolute;top: 6px;background-color: transparent;right: 6px;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form [formGroup]="addChildForm">
+                    <div class="card-body" style="padding: 1.5rem;">
+                        <div class="cus-form row">
+                            <!-- <div class="col-lg-4">
+                                <label>Type</label>
+                                <input type="text" formControlName="type" class="form-control">
+                            </div> -->
+                            <div class="col-lg-4">
+                                <label>Display Name</label>
+                                <input type="text" formControlName="displayName" class="form-control">
+                            </div>
+                            <div class="col-lg-4">
+                                <label>Display Value</label>
+                                <input type="text" formControlName="displayValue" class="form-control">
+                            </div>
+                            <div class="col-lg-4 mt-3" style="align-items: end;display: flex;">
+                                <div class="form-group">
+                                    <input type="checkbox" id="checkbx" formControlName="activeFlag"
+                                        class="form-check-input">
+                                    <label class="form-check-label">Active</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer border-0 pb-0">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                (click)="onHideChildModal()">Close</button>
+                            <button type="button" class="btn btn-primary" (click)="addChild()">Save </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="genericAddGrandChildForm" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="card">
+                <div class="card-header border-0" style="padding: 1.5rem;">
+                    <div class="modal-title">Add Sub Category</div>
+                    <button type="button" class="close" data-dismiss="modal" (click)="onHideGrandChildModal()" aria-label="Close"
+                        style="border: 0px;position: absolute;top: 6px;background-color: transparent;right: 6px;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form [formGroup]="addGrandChildForm">
+                    <div class="card-body" style="padding: 1.5rem;">
+                        <div class="cus-form row">
+                            <!-- <div class="col-lg-4">
+                                <label>Type</label>
+                                <input type="text" formControlName="type" class="form-control">
+                            </div> -->
+                            <div class="col-lg-4">
+                                <label>Display Name</label>
+                                <input type="text" formControlName="displayName" class="form-control">
+                            </div>
+                            <div class="col-lg-4">
+                                <label>Display Value</label>
+                                <input type="text" formControlName="displayValue" class="form-control">
+                            </div>
+                            <div class="col-lg-12 mt-3" style="align-items: end;display: flex;">
+                                <div class="form-group">
+                                    <input type="checkbox" id="checkbx" formControlName="activeFlag"
+                                        class="form-check-input">
+                                    <label class="form-check-label">Active</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer border-0 pb-0">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                (click)="onHideGrandChildModal()">Close</button>
+                            <button type="button" class="btn btn-primary" (click)="addGrandChild()">Save </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

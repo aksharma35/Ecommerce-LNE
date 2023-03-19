@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand"><img style="width: 60px;height: 55px;margin-left: 40px;cursor: pointer;" src="../../../assets/logo.png"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" style="justify-content: end;margin-right: 5%;">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link"[ngClass]="currentRoute === '/admin/add-product'?'active':''" aria-current="page" (click)="onroute('Products')">Products</a>
+            </li>
+            <li class="nav-item " style="cursor: pointer;">
+                <a class="nav-link" [ngClass]="currentRoute === '/admin/configuration'?'active':''" (click)="onroute('Configuration')">Configuration</a>
+            </li>
+        </ul>
+    </div>
+    <div (click)="onLogOut()">
+        <img style="width: 26px;right: 30px;cursor: pointer;position: relative;" src="../../../../assets/check-out.png">
+        <p style="margin: 0px;position: relative;right: 44px;font-weight: 600;cursor: pointer;color: #252525;">logOut</p>
+    </div>
+</nav>

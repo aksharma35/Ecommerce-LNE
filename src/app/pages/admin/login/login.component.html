@@ -1,0 +1,35 @@
+<div style="margin-top: 20px;">
+    <img style="width: 60px;height: 55px;margin-left: 40px;cursor: pointer;" src="../../../assets/logo.png"  (click)="homepage()">
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-5">
+            <div class="wrap">
+                <div class="img">
+                    <img src="../../../../assets/Pretty-Blue-Wallpaper-For-Phone.jpg">
+                </div>
+                <div class="login-wrap p-4 p-md-5">
+                    <div class="d-flex">
+                        <div class="w-100">
+                            <h3 class="mb-4" style="font-weight: bolder;color: #ffff;"> Admin Sign In</h3>
+                        </div>
+                    </div>
+                    <form class="signin-form" [formGroup]="loginForm">
+                        <div class="form-group mt-3">
+                            <input type="text" class="form-control" required formControlName="email">
+                            <label class="form-control-placeholder" for="username">Email</label>
+                        </div>
+                        <div class="form-group">
+                            <input id="password-field" type="password" class="form-control" formControlName="password" required>
+                            <label class="form-control-placeholder" for="password">Password</label>
+                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="form-control btn btn-primary rounded submit px-3" (click)="onLogin()">Sign In</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

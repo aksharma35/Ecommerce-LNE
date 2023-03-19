@@ -1,0 +1,139 @@
+<app-admin-header></app-admin-header>
+<div class="table-wrap" style="padding: 60px 100px 60px 100px;" >
+    <div class="row" style="margin: 10px;">
+        <button class="btn btn-primary" style="width: fit-content;margin-left: auto;background-color: #096a2e;border: #096a2e;" (click)="openAddProductModal()">
+            Add Product
+        </button>
+    </div>
+    <table class="table" style="box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;">
+        <thead class="thead-primary">
+            <tr>
+                <th>&nbsp;</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>total</th>
+                <th>rating</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="alert" role="alert" *ngFor="let product of productList">
+                <td>
+                    <div class="img"><img style="width: 100px;height: 80px;" [src]="webUrl+product?.attachments?.filePath"></div>
+                </td>
+                <td>
+                    <div class="email">
+                        <span>{{product?.title}}</span>
+                        <span>{{product?.description}}</span>
+                    </div>
+                </td>
+                <td>{{product?.price | currency:"INR":"symbol"}}</td>
+                <td class="quantity">
+                    <div class="input-group">
+                        {{product?.quantity}}
+                    </div>
+                </td>
+                <td>{{total(product?.quantity,product?.price) | currency:"INR":"symbol"}}</td>
+                <td>{{product?.rating}}</td>
+                <td>
+                    <!-- <img style="width: 20px;position: absolute;right: 60px;cursor: pointer;" src="../../../../assets/edit.png" (click)="openEditProductModal(product)">
+                    <img style="width: 20px;position: absolute;right: 25px;cursor: pointer;" src="../../../../assets/delete.png" (click)="deleteProduct(product)"> -->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="addProduct" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="card">
+                <div class="card-header border-0" style="padding: 1.5rem;">
+                    <div class="modal-title">Add Product</div>
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close"
+                        style="border: 0px;position: absolute;top: 6px;background-color: transparent;right: 6px;">
+                        <span aria-hidden="true" (click)="closeAddProductModal()">&times;</span>
+                    </button>
+                </div>
+                <form [formGroup]="addProductForm">
+                    <div class="card-body" style="padding: 1.5rem;">
+                        <div class="cus-form row">
+                            <div class="col-lg-12 mb-2">
+                                <label>Title</label>
+                                <input type="text" placeholder="Product Name" formControlName="title" class="form-control" required [ngClass]="{
+                                    'red-border-class': submitAddProduct && Validate['title'].errors}">
+                            </div>
+                            <div class="col-lg-4 mb-2">
+                                <label>Type</label>
+                                <select formControlName="type" class="form-control" (change)="onSelectType($event)" required [ngClass]="{
+                                    'red-border-class': submitAddProduct && Validate['type'].errors}">
+                                    <option value="" disabled>Select</option>
+                                    <ng-container *ngFor="let type of allTypes">
+                                        <option [value]="type.displayValue">{{type.displayName}}</option>
+                                    </ng-container>
+                                </select>
+                                <!-- <input type="text" formControlName="type" class="form-control"> -->
+                            </div>
+                            <ng-container *ngIf="categoryList.length !== 0">
+                                <div class="col-lg-4 mb-2">
+                                    <label>Category</label>
+                                    <select formControlName="category" class="form-control" (click)="onSelectCategory($event)">
+                                        <option value="" disabled>Select</option>
+                                        <ng-container *ngFor="let category of categoryList">
+                                            <option [value]="category.displayValue">{{category.displayName}}</option>
+                                        </ng-container>
+                                    </select>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="subCategoryList.length !== 0">
+                                <div class="col-lg-4 mb-2">
+                                    <label>Sub Category</label>
+                                    <select formControlName="subCategory" class="form-control">
+                                        <option value="" disabled>Select</option>
+                                        <ng-container *ngFor="let subCategory of subCategoryList">
+                                            <option [value]="subCategory.displayValue">{{subCategory.displayName}}</option>
+                                        </ng-container>
+                                    </select>
+                                </div>
+                            </ng-container>
+                            <div class="col-lg-4 mb-2">
+                                <label>Price</label>
+                                <input type="number" placeholder="Price of Product" formControlName="price" class="form-control" required [ngClass]="{
+                                    'red-border-class': submitAddProduct && Validate['price'].errors}">
+                            </div>
+                            <div class="col-lg-4 mb-2">
+                                <label>Quantity</label>
+                                <input type="number" placeholder="Quantity" formControlName="quantity" class="form-control" required [ngClass]="{
+                                    'red-border-class': submitAddProduct && Validate['quantity'].errors}">
+                            </div>
+                            <div class="col-lg-4 mb-2">
+                                <label>Rating</label>
+                                <input type="number" placeholder="Rating"  formControlName="rating" class="form-control" required [ngClass]="{
+                                    'red-border-class': submitAddProduct && Validate['rating'].errors}">
+                            </div>
+                            <div class="col-lg-4 mb-2">
+                                <label>Upload Image</label>
+                                <input type="file" placeholder="product Image" formControlName="file" class="form-control" (change)="onFileChange($event)" 
+                                required [ngClass]="{
+                                    'red-border-class': submitAddProduct && Validate['file'].errors}">
+                            </div>
+                            <div class="col-lg-12 mb-2">
+                                <label>Description</label>
+                                <textarea formControlName="description" class="form-control" required [ngClass]="{
+                                    'red-border-class': submitAddProduct && Validate['description'].errors}"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer border-0 pb-0">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            (click)="closeAddProductModal()">Close</button>
+                            <button type="button" class="btn btn-primary" (click)="onAddProduct()">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
